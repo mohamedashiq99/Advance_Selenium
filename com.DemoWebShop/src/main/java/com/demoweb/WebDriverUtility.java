@@ -1,0 +1,68 @@
+package com.demoweb;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.support.ui.Select;
+
+public class WebDriverUtility {
+
+	public void webPageScreenShot(WebDriver driver) throws IOException {
+
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File temp = ts.getScreenshotAs(OutputType.FILE);
+		File dest = new File(FrameWorkConstants.screenshotPath);
+		FileHandler.copy(temp, dest);
+
+	}
+
+	public void webElementScreenShot(WebElement element) throws IOException {
+
+		File temp = element.getScreenshotAs(OutputType.FILE);
+		File dest = new File(FrameWorkConstants.screenshotPath);
+		FileHandler.copy(temp, dest);
+
+	}
+
+	public void javaScriptClick(WebDriver driver, WebElement ele) {
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].click();", ele);
+
+	}
+
+	public void javaScriptScrollToElement(WebDriver driver, WebElement ele) {
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView(true);", ele);
+
+	}
+
+	public void selectByVisibleText(WebElement ele, String value) {
+
+		Select sel = new Select(ele);
+		sel.selectByVisibleText(value);
+
+	}
+	public void alertAccept(WebDriver driver) {
+		driver.switchTo().alert().accept();
+		
+	}
+	
+	public void error (WebDriver driver) {
+		ErrorPage errorpage = new ErrorPage(driver);
+		errorpage.getAdvanced().click();
+		errorpage.getProceedLink().click();
+	}
+	
+	
+	
+	
+
+}
